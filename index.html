@@ -20,7 +20,7 @@
       </div>
     </main>
 
-    <section id="city-sections" class="city-sections disable-selection" aria-labelledby="sections-title" aria-hidden="true">
+    <section id="city-sections" class="city-sections" aria-labelledby="sections-title" aria-hidden="true">
       <div class="sections-header">
         <div>
           <p class="eyebrow">Ciudad Inteligente</p>
@@ -40,7 +40,7 @@
 
     <script>
       (function () {
-        window.citySceneEnabled = true;
+        window.citySceneEnabled = window.location.hash !== '#city-sections';
         var welcome = document.getElementById('welcome');
         var sections = document.getElementById('city-sections');
         var visitButton = document.getElementById('visit-city');
@@ -59,6 +59,10 @@
 
         function showWelcome() {
           window.location.reload();
+        }
+
+        if (window.location.hash === '#city-sections') {
+          showSections();
         }
 
         visitButton.addEventListener('click', function (event) {
@@ -98,10 +102,10 @@
         var index = 0;
 
         function loadNext() {
-          if (index >= scripts.length) {
+          if (!window.citySceneEnabled) {
             return;
           }
-          if (!window.citySceneEnabled && scripts[index] === './script.js') {
+          if (index >= scripts.length) {
             return;
           }
           var script = document.createElement('script');

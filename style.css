@@ -81,32 +81,39 @@ body:has(#city-sections:target) .city-sections { opacity: 1; visibility: visible
 .sections-header h2 { margin: 0; font-size: clamp(28px, 5vw, 48px); font-weight: 400; }
 .sections-header .eyebrow { margin-bottom: 8px; }
 .back-button { padding: 10px 16px; font-size: 11px; white-space: nowrap; }
-.cards-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; width: min(1180px, 100%); margin: auto; }
-.card-wrap { min-height: 280px; perspective: 1000px; }
+.cards-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: min(1180px, 1180px); margin: auto; }
+.card-wrap { width: 320px; height: 320px; perspective: 1200px; transform-style: preserve-3d; cursor: pointer; }
 .card {
   position: relative;
-  height: 100%;
-  min-height: 280px;
+  width: 320px;
+  height: 320px;
   overflow: hidden;
   background: #111;
   border: 1px solid rgba(255,255,255,.22);
-  box-shadow: 0 18px 40px rgba(0,0,0,.4);
-  transition: transform .18s ease-out;
+  box-shadow: rgba(0, 0, 0, .66) 0 30px 60px 0, inset #333 0 0 0 5px, inset rgba(255,255,255,.4) 0 0 0 6px;
+  transition: .8s cubic-bezier(.445,.05,.55,.95);
   transform-style: preserve-3d;
 }
-.card-bg { position: absolute; inset: -18px; background-position: center; background-size: cover; opacity: .46; transition: transform .18s ease-out; }
-.card-info { position: absolute; inset: auto 0 0; padding: 24px 20px; text-align: left; background: linear-gradient(transparent, rgba(0,0,0,.9)); }
-.card-info h3 { margin: 0 0 8px; font-size: 25px; font-weight: 400; }
-.card-info p { margin: 0; color: rgba(255,255,255,.74); font-size: 13px; line-height: 1.5; }
+.card-bg { position: absolute; top: -20px; left: -20px; width: 100%; height: 100%; padding: 20px; background-position: center; background-size: cover; opacity: .5; transition: .8s cubic-bezier(.445,.05,.55,.95), opacity 4s .8s cubic-bezier(.445,.05,.55,.95); pointer-events: none; }
+.card-info { position: absolute; bottom: 0; padding: 20px; color: #fff; text-align: left; transform: translateY(40%); transition: .6s 1.6s cubic-bezier(.215,.61,.355,1); }
+.card-info p { margin: 10px 0 0; color: rgba(255,255,255,.74); font-size: 13px; line-height: 1.5; opacity: 0; text-shadow: #000 0 2px 3px; transition: .6s 1.6s cubic-bezier(.215,.61,.355,1); }
+.card-info * { position: relative; z-index: 1; }
+.card-info:after { content: ""; position: absolute; inset: 0; z-index: 0; height: 100%; background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.6) 100%); opacity: 0; transform: translateY(100%); transition: 5s 1s cubic-bezier(.445,.05,.55,.95); }
+.card-info h3 { margin: 0; font-size: 36px; font-weight: 700; text-shadow: rgba(0,0,0,.5) 0 10px 10px; }
+.card-wrap:hover .card-info { transform: translateY(0); transition: .6s cubic-bezier(.23,1,.32,1); }
+.card-wrap:hover .card-info p { opacity: 1; transition: .6s cubic-bezier(.23,1,.32,1); }
+.card-wrap:hover .card-info:after { opacity: 1; transform: translateY(0); transition: 3s cubic-bezier(.23,1,.32,1); }
+.card-wrap:hover .card-bg { opacity: .8; transition: .5s cubic-bezier(.23,1,.32,1), opacity 4s cubic-bezier(.23,1,.32,1); }
+.card-wrap:hover .card { box-shadow: none; transition: .5s cubic-bezier(.23,1,.32,1); }
 .disable-selection { -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-touch-callout: none; }
 
 @media (max-width: 800px) {
   body { overflow: auto; }
-  .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards-grid { gap: 16px; }
 }
 @media (max-width: 560px) {
   .sections-header { display: block; }
   .back-button { margin-top: 14px; }
-  .cards-grid { grid-template-columns: 1fr; }
+  .card-wrap, .card { width: min(320px, 100%); }
   .welcome-card { padding: 30px 22px; }
 }
