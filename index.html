@@ -16,7 +16,7 @@
           <p>Análisis matemático - 1° año.<br><strong>Profesor: Ing. Santiago M. Rodriguez.</strong></p>
           <p><strong>Alumnos:</strong> Juliani Diego Hernán, Falcone Valentín</p>
         </div>
-        <button id="visit-city" class="visit-button" type="button">Visitar la Ciudad Inteligente</button>
+        <a id="visit-city" class="visit-button" href="#city-sections">Visitar la Ciudad Inteligente</a>
       </div>
     </main>
 
@@ -26,7 +26,7 @@
           <p class="eyebrow">Ciudad Inteligente</p>
           <h2 id="sections-title">Explorar secciones</h2>
         </div>
-        <button id="back-home" class="back-button" type="button">Volver a la portada</button>
+        <a id="back-home" class="back-button" href="#welcome">Volver a la portada</a>
       </div>
       <div class="cards-grid">
         <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2018/05/27/15/28/technology-3433708_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h3>DevOps</h3><p>Procesos, automatización e infraestructura para construir una ciudad digital.</p></div></div></article>
@@ -61,8 +61,12 @@
           window.location.reload();
         }
 
-        visitButton.addEventListener('click', showSections);
-        backButton.addEventListener('click', showWelcome);
+        visitButton.addEventListener('click', function (event) {
+          showSections();
+        });
+        backButton.addEventListener('click', function (event) {
+          showWelcome();
+        });
 
         document.querySelectorAll('.card-wrap').forEach(function (cardWrap) {
           var card = cardWrap.querySelector('.card');
