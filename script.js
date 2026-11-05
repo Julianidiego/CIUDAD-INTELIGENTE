@@ -282,3 +282,45 @@ var animate = function() {
 generateLines();
 init();
 animate();
+
+// ----------------------------------------------------------------- SITE NAVIGATION
+var welcome = document.getElementById('welcome');
+var citySections = document.getElementById('city-sections');
+var visitCity = document.getElementById('visit-city');
+var backHome = document.getElementById('back-home');
+
+function showCitySections() {
+  welcome.classList.add('is-hidden');
+  citySections.classList.add('is-visible');
+  citySections.setAttribute('aria-hidden', 'false');
+  welcome.setAttribute('aria-hidden', 'true');
+}
+
+function showWelcome() {
+  citySections.classList.remove('is-visible');
+  welcome.classList.remove('is-hidden');
+  citySections.setAttribute('aria-hidden', 'true');
+  welcome.setAttribute('aria-hidden', 'false');
+}
+
+visitCity.addEventListener('click', showCitySections);
+backHome.addEventListener('click', showWelcome);
+
+document.querySelectorAll('.card-wrap').forEach(function(cardWrap) {
+  var card = cardWrap.querySelector('.card');
+  var cardBackground = cardWrap.querySelector('.card-bg');
+  cardBackground.style.backgroundImage = 'url("' + cardWrap.dataset.image + '")';
+
+  cardWrap.addEventListener('mousemove', function(event) {
+    var bounds = cardWrap.getBoundingClientRect();
+    var mousePX = (event.clientX - bounds.left) / bounds.width;
+    var mousePY = (event.clientY - bounds.top) / bounds.height;
+    card.style.transform = 'rotateY(' + (mousePX * 18 - 9) + 'deg) rotateX(' + (mousePY * -18 + 9) + 'deg)';
+    cardBackground.style.transform = 'translate(' + (mousePX * -24 + 12) + 'px, ' + (mousePY * -24 + 12) + 'px)';
+  });
+
+  cardWrap.addEventListener('mouseleave', function() {
+    card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    cardBackground.style.transform = 'translate(0, 0)';
+  });
+});
