@@ -40,12 +40,17 @@
 
     <script>
       (function () {
+        window.citySceneEnabled = true;
         var welcome = document.getElementById('welcome');
         var sections = document.getElementById('city-sections');
         var visitButton = document.getElementById('visit-city');
         var backButton = document.getElementById('back-home');
 
         function showSections() {
+          window.citySceneEnabled = false;
+          if (typeof window.stopCityScene === 'function') {
+            window.stopCityScene();
+          }
           welcome.classList.add('is-hidden');
           sections.classList.add('is-visible');
           welcome.setAttribute('aria-hidden', 'true');
@@ -53,10 +58,7 @@
         }
 
         function showWelcome() {
-          sections.classList.remove('is-visible');
-          welcome.classList.remove('is-hidden');
-          welcome.setAttribute('aria-hidden', 'false');
-          sections.setAttribute('aria-hidden', 'true');
+          window.location.reload();
         }
 
         visitButton.addEventListener('click', showSections);
@@ -82,8 +84,33 @@
         });
       }());
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-    <script src="./script.js"></script>
+    <script>
+      (function () {
+        var scripts = [
+          'https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js',
+          './script.js'
+        ];
+        var index = 0;
+
+        function loadNext() {
+          if (index >= scripts.length) {
+            return;
+          }
+          if (!window.citySceneEnabled && scripts[index] === './script.js') {
+            return;
+          }
+          var script = document.createElement('script');
+          script.src = scripts[index++];
+          script.onload = loadNext;
+          script.onerror = function () {
+            console.warn('No se pudo cargar el módulo de la ciudad 3D.');
+          };
+          document.body.appendChild(script);
+        }
+
+        loadNext();
+      }());
+    </script>
   </body>
 </html>

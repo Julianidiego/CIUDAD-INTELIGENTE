@@ -2,6 +2,8 @@
 //----------------------------------------------------------------- BASIC parameters
 var renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setSize( window.innerWidth, window.innerHeight );
+var citySceneRunning = true;
+var cityAnimationFrame = null;
 
 if (window.innerWidth > 800) {
   renderer.shadowMap.enabled = true;
@@ -251,8 +253,11 @@ var cameraSet = function() {
 //----------------------------------------------------------------- ANIMATE
 
 var animate = function() {
+  if (!citySceneRunning) {
+    return;
+  }
   var time = Date.now() * 0.00005;
-  requestAnimationFrame(animate);
+  cityAnimationFrame = requestAnimationFrame(animate);
   
   city.rotation.y -= ((mouse.x * 8) - camera.rotation.y) * uSpeed;
   city.rotation.x -= (-(mouse.y * 2) - camera.rotation.x) * uSpeed;
@@ -283,44 +288,34 @@ generateLines();
 init();
 animate();
 
-// ----------------------------------------------------------------- SITE NAVIGATION
-var welcome = document.getElementById('welcome');
-var citySections = document.getElementById('city-sections');
-var visitCity = document.getElementById('visit-city');
-var backHome = document.getElementById('back-home');
+window.stopCityScene = function() {
+  citySceneRunning = false;
 
-function showCitySections() {
-  welcome.classList.add('is-hidden');
-  citySections.classList.add('is-visible');
-  citySections.setAttribute('aria-hidden', 'false');
-  welcome.setAttribute('aria-hidden', 'true');
-}
+  if (cityAnimationFrame !== null) {
+    cancelAnimationFrame(cityAnimationFrame);
+    cityAnimationFrame = null;
+  }
 
-function showWelcome() {
-  citySections.classList.remove('is-visible');
-  welcome.classList.remove('is-hidden');
-  citySections.setAttribute('aria-hidden', 'true');
-  welcome.setAttribute('aria-hidden', 'false');
-}
+  window.removeEventListener('resize', onWindowResize, false);
+  window.removeEventListener('mousemove', onMouseMove, false);
+  window.removeEventListener('touchstart', onDocumentTouchStart, false);
+  window.removeEventListener('touchmove', onDocumentTouchMove, false);
 
-visitCity.addEventListener('click', showCitySections);
-backHome.addEventListener('click', showWelcome);
+  if (renderer.domElement.parentNode) {
+    renderer.domElement.parentNode.removeChild(renderer.domElement);
+  }
 
-document.querySelectorAll('.card-wrap').forEach(function(cardWrap) {
-  var card = cardWrap.querySelector('.card');
-  var cardBackground = cardWrap.querySelector('.card-bg');
-  cardBackground.style.backgroundImage = 'url("' + cardWrap.dataset.image + '")';
-
-  cardWrap.addEventListener('mousemove', function(event) {
-    var bounds = cardWrap.getBoundingClientRect();
-    var mousePX = (event.clientX - bounds.left) / bounds.width;
-    var mousePY = (event.clientY - bounds.top) / bounds.height;
-    card.style.transform = 'rotateY(' + (mousePX * 18 - 9) + 'deg) rotateX(' + (mousePY * -18 + 9) + 'deg)';
-    cardBackground.style.transform = 'translate(' + (mousePX * -24 + 12) + 'px, ' + (mousePY * -24 + 12) + 'px)';
+  renderer.dispose();
+  scene.traverse(function(object) {
+    if (object.geometry) {
+      object.geometry.dispose();
+    }
+    if (object.material) {
+      var materials = Array.isArray(object.material) ? object.material : [object.material];
+      materials.forEach(function(material) {
+        material.dispose();
+      });
+    }
   });
-
-  cardWrap.addEventListener('mouseleave', function() {
-    card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-    cardBackground.style.transform = 'translate(0, 0)';
-  });
-});
+  scene.clear();
+};
