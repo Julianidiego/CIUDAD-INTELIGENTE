@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Secciones · Ciudad Inteligente</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body class="hover-page">
+    <main class="city-sections" aria-labelledby="sections-title">
+      <div class="sections-header">
+        <div>
+          <p class="eyebrow">Ciudad Inteligente</p>
+          <h1 id="sections-title">Explorar secciones</h1>
+        </div>
+        <a class="back-button" href="./index.html">Volver a la portada</a>
+      </div>
+      <div class="cards-grid">
+        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2018/05/27/15/28/technology-3433708_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h2>DevOps</h2><p>Procesos, automatización e infraestructura para construir una ciudad digital.</p></div></div></article>
+        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2019/11/23/04/52/matrix-4646234_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h2>Machine Learning</h2><p>Modelos que encuentran patrones y ayudan a tomar decisiones basadas en datos.</p></div></div></article>
+        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2013/11/20/09/35/background-213649_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h2>Data Analytics</h2><p>Lectura, organización e interpretación de información urbana.</p></div></div></article>
+        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2018/02/04/17/39/crypto-currency-3130381_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h2>Cryptocurrency</h2><p>Representación digital de valor y sistemas distribuidos.</p></div></div></article>
+        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2016/04/13/19/20/binary-1327493_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h2>Full-Stack</h2><p>La conexión entre la interfaz, la lógica y los servicios de la ciudad.</p></div></div></article>
+        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2019/12/17/05/53/security-4700815_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h2>Cyber Security</h2><p>Protección de los datos y de la infraestructura tecnológica.</p></div></div></article>
+      </div>
+    </main>
+    <script>
+      document.querySelectorAll('.card-wrap').forEach(function (cardWrap) {
+        var card = cardWrap.querySelector('.card');
+        var background = cardWrap.querySelector('.card-bg');
+        background.style.backgroundImage = 'url("' + cardWrap.dataset.image + '")';
+        cardWrap.addEventListener('mousemove', function (event) {
+          var bounds = cardWrap.getBoundingClientRect();
+          var x = (event.clientX - bounds.left) / bounds.width;
+          var y = (event.clientY - bounds.top) / bounds.height;
+          card.style.transform = 'rotateY(' + (x * 18 - 9) + 'deg) rotateX(' + (y * -18 + 9) + 'deg)';
+          background.style.transform = 'translate(' + (x * -24 + 12) + 'px, ' + (y * -24 + 12) + 'px)';
+        });
+        cardWrap.addEventListener('mouseleave', function () {
+          card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+          background.style.transform = 'translate(0, 0)';
+        });
+      });
+    </script>
+  </body>
+</html>

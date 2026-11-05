@@ -12,6 +12,23 @@ body {
 
 canvas { display: block; width: 100%; height: 100%; }
 
+.hover-page {
+  min-height: 100vh;
+  overflow: auto;
+  background:
+    linear-gradient(rgba(0,0,0,.66), rgba(0,0,0,.82)),
+    url("./assets/city-background.avif") center / cover fixed no-repeat;
+}
+
+.hover-page .city-sections {
+  position: relative;
+  inset: auto;
+  min-height: 100vh;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 .welcome, .city-sections { position: fixed; inset: 0; z-index: 5; }
 .welcome {
   display: grid;
@@ -67,8 +84,6 @@ canvas { display: block; width: 100%; height: 100%; }
   transition: opacity .55s ease, visibility .55s ease;
 }
 .city-sections.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
-body:has(#city-sections:target) .welcome { opacity: 0; visibility: hidden; pointer-events: none; }
-body:has(#city-sections:target) .city-sections { opacity: 1; visibility: visible; pointer-events: auto; }
 .sections-header {
   display: flex;
   align-items: flex-start;

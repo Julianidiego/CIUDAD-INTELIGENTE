@@ -16,84 +16,12 @@
           <p>Análisis matemático - 1° año.<br><strong>Profesor: Ing. Santiago M. Rodriguez.</strong></p>
           <p><strong>Alumnos:</strong> Juliani Diego Hernán, Falcone Valentín</p>
         </div>
-        <a id="visit-city" class="visit-button" href="#city-sections">Visitar la Ciudad Inteligente</a>
+        <a id="visit-city" class="visit-button" href="./hovers.html">Visitar la Ciudad Inteligente</a>
       </div>
     </main>
-
-    <section id="city-sections" class="city-sections" aria-labelledby="sections-title" aria-hidden="true">
-      <div class="sections-header">
-        <div>
-          <p class="eyebrow">Ciudad Inteligente</p>
-          <h2 id="sections-title">Explorar secciones</h2>
-        </div>
-        <a id="back-home" class="back-button" href="#welcome">Volver a la portada</a>
-      </div>
-      <div class="cards-grid">
-        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2018/05/27/15/28/technology-3433708_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h3>DevOps</h3><p>Procesos, automatización e infraestructura para construir una ciudad digital.</p></div></div></article>
-        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2019/11/23/04/52/matrix-4646234_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h3>Machine Learning</h3><p>Modelos que encuentran patrones y ayudan a tomar decisiones basadas en datos.</p></div></div></article>
-        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2013/11/20/09/35/background-213649_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h3>Data Analytics</h3><p>Lectura, organización e interpretación de información urbana.</p></div></div></article>
-        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2018/02/04/17/39/crypto-currency-3130381_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h3>Cryptocurrency</h3><p>Representación digital de valor y sistemas distribuidos.</p></div></div></article>
-        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2016/04/13/19/20/binary-1327493_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h3>Full-Stack</h3><p>La conexión entre la interfaz, la lógica y los servicios de la ciudad.</p></div></div></article>
-        <article class="card-wrap" data-image="https://cdn.pixabay.com/photo/2019/12/17/05/53/security-4700815_960_720.jpg"><div class="card"><div class="card-bg"></div><div class="card-info"><h3>Cyber Security</h3><p>Protección de los datos y de la infraestructura tecnológica.</p></div></div></article>
-      </div>
-    </section>
-
     <script>
       (function () {
-        window.citySceneEnabled = window.location.hash !== '#city-sections';
-        var welcome = document.getElementById('welcome');
-        var sections = document.getElementById('city-sections');
-        var visitButton = document.getElementById('visit-city');
-        var backButton = document.getElementById('back-home');
-
-        function showSections() {
-          window.citySceneEnabled = false;
-          if (typeof window.stopCityScene === 'function') {
-            window.stopCityScene();
-          }
-          welcome.classList.add('is-hidden');
-          sections.classList.add('is-visible');
-          welcome.setAttribute('aria-hidden', 'true');
-          sections.setAttribute('aria-hidden', 'false');
-        }
-
-        function showWelcome() {
-          window.location.reload();
-        }
-
-        if (window.location.hash === '#city-sections') {
-          showSections();
-        }
-
-        visitButton.addEventListener('click', function (event) {
-          showSections();
-        });
-        backButton.addEventListener('click', function (event) {
-          showWelcome();
-        });
-
-        document.querySelectorAll('.card-wrap').forEach(function (cardWrap) {
-          var card = cardWrap.querySelector('.card');
-          var background = cardWrap.querySelector('.card-bg');
-          background.style.backgroundImage = 'url("' + cardWrap.dataset.image + '")';
-
-          cardWrap.addEventListener('mousemove', function (event) {
-            var bounds = cardWrap.getBoundingClientRect();
-            var x = (event.clientX - bounds.left) / bounds.width;
-            var y = (event.clientY - bounds.top) / bounds.height;
-            card.style.transform = 'rotateY(' + (x * 18 - 9) + 'deg) rotateX(' + (y * -18 + 9) + 'deg)';
-            background.style.transform = 'translate(' + (x * -24 + 12) + 'px, ' + (y * -24 + 12) + 'px)';
-          });
-
-          cardWrap.addEventListener('mouseleave', function () {
-            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-            background.style.transform = 'translate(0, 0)';
-          });
-        });
-      }());
-    </script>
-    <script>
-      (function () {
+        window.citySceneEnabled = true;
         var scripts = [
           'https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js',
           'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js',
@@ -102,9 +30,6 @@
         var index = 0;
 
         function loadNext() {
-          if (!window.citySceneEnabled) {
-            return;
-          }
           if (index >= scripts.length) {
             return;
           }
